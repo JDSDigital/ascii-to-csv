@@ -101,11 +101,9 @@ do {
 		$input[19],
 		$input[0] .$input[1] .$input[2] .$input[3]
 	];
-
-	foreach ($output as $field) {
-		fwrite($csv, "$field" .";");
-	}
-	fwrite($csv, "\n");
+	
+	$output = implode(";", $output);
+	fwrite($csv, $output ."\n");
 
 } while (!feof($db));
 
