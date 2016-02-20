@@ -1,4 +1,5 @@
 <?php
+include 'config.php';
 function sanitizeDate($date){
 	$date = str_replace("/", "", $date);
 	$date = [
@@ -12,9 +13,9 @@ function sanitizeDate($date){
 
 ob_start();
 
-$db = fopen("/var/www/testfilter/TELESALUD_23012016.txt", "r");
-$csv = fopen("/var/www/testfilter/telesalud.csv", "w");
-$timestamp = fopen("/var/www/testfilter/timestamp", "w");
+$db = fopen("$db", "r");
+$csv = fopen("$csv", "w");
+$timestamp = fopen("$timestamp", "w");
 
 fwrite($timestamp, date("Y-m-d G:i:s") ."\n");
 
