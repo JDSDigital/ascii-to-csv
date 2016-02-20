@@ -1,5 +1,4 @@
 <?php
-
 function sanitizeDate($date){
 	$date = str_replace("/", "", $date);
 	$date = [
@@ -11,13 +10,13 @@ function sanitizeDate($date){
 	return $date[2] .$date[1] .$date[0];
 }
 
-function createCSV($line){
-	
-}
-
 ob_start();
-$db = fopen("./TELESALUD.txt", "r");
-$csv = fopen("./telesalud.csv", "w");
+
+$db = fopen("/var/www/testfilter/TELESALUD_23012016.txt", "r");
+$csv = fopen("/var/www/testfilter/telesalud.csv", "w");
+$timestamp = fopen("/var/www/testfilter/timestamp", "w");
+
+fwrite($timestamp, date("Y-m-d G:i:s") ."\n");
 
 $headers = ['GroupID', 'SubGroupID', 'FirstName', 'LastName', 'DOB', 'Gender', 'PhoneNumber', 'Address1', 'Address2', 'City', 'State', 'ZipCode_PostalCode', 'MID', 'SSN', 'Extra2', 'Extra3', 'Extra5', 'Insurance'];
 
@@ -102,12 +101,15 @@ do {
 		$input[0] .$input[1] .$input[2] .$input[3]
 	];
 
-	fputcsv($csv, $output, ";");
-
-	//var_dump($output);
+	foreach ($output as $field) {
+		fwrite($csv, "$field" .";");
+	}
+	fwrite($csv, "\n");
 
 } while (!feof($db));
 
+fwrite($timestamp, date("Y-m-d G:i:s") ."\n");
 fclose ($db);
+fclose($csv);
 ob_end_flush();
 ?>
